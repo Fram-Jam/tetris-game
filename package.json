@@ -1,0 +1,28 @@
+{
+  "name": "tetris-game",
+  "version": "1.0.0",
+  "description": "A classic Tetris game implementation using vanilla JavaScript and HTML5 Canvas",
+  "main": "index.html",
+  "scripts": {
+    "start": "open index.html",
+    "serve": "python3 -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bananacan1/tetris-game.git"
+  },
+  "keywords": [
+    "tetris",
+    "game",
+    "javascript",
+    "canvas",
+    "html5",
+    "puzzle"
+  ],
+  "author": "bananacan1",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bananacan1/tetris-game/issues"
+  },
+  "homepage": "https://github.com/bananacan1/tetris-game#readme"
+}

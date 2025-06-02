@@ -1,49 +1,75 @@
+/**
+ * Tetris Game Implementation
+ * A classic Tetris game built with HTML5 Canvas and vanilla JavaScript
+ */
+
+// Canvas elements for game board and next piece preview
 const canvas = document.getElementById('game-board');
 const ctx = canvas.getContext('2d');
 const nextCanvas = document.getElementById('next-piece-canvas');
 const nextCtx = nextCanvas.getContext('2d');
 
-const BLOCK_SIZE = 30;
-const BOARD_WIDTH = 10;
-const BOARD_HEIGHT = 20;
+// Game constants
+const BLOCK_SIZE = 30;  // Size of each block in pixels
+const BOARD_WIDTH = 10;  // Game board width in blocks
+const BOARD_HEIGHT = 20; // Game board height in blocks
+
+// Color palette for pieces (0 = empty, 1-7 = different pieces)
 const COLORS = {
-    0: '#000000',
-    1: '#FF0D72',
-    2: '#0DC2FF',
-    3: '#0DFF72',
-    4: '#F538FF',
-    5: '#FF8E0D',
-    6: '#FFE138',
-    7: '#3877FF'
+    0: '#000000',  // Empty
+    1: '#FF0D72',  // I-piece (pink)
+    2: '#0DC2FF',  // O-piece (cyan)
+    3: '#0DFF72',  // T-piece (green)
+    4: '#F538FF',  // L-piece (purple)
+    5: '#FF8E0D',  // J-piece (orange)
+    6: '#FFE138',  // S-piece (yellow)
+    7: '#3877FF'   // Z-piece (blue)
 };
 
+// Tetromino piece definitions
+// Each piece is represented as a 2D array where 1 = filled, 0 = empty
 const PIECES = [
-    [[1, 1, 1, 1]],
-    [[1, 1], [1, 1]],
-    [[1, 1, 1], [0, 1, 0]],
-    [[1, 1, 1], [1, 0, 0]],
-    [[1, 1, 1], [0, 0, 1]],
-    [[0, 1, 1], [1, 1, 0]],
-    [[1, 1, 0], [0, 1, 1]]
+    [[1, 1, 1, 1]],              // I-piece
+    [[1, 1], [1, 1]],            // O-piece
+    [[1, 1, 1], [0, 1, 0]],      // T-piece
+    [[1, 1, 1], [1, 0, 0]],      // L-piece
+    [[1, 1, 1], [0, 0, 1]],      // J-piece
+    [[0, 1, 1], [1, 1, 0]],      // S-piece
+    [[1, 1, 0], [0, 1, 1]]       // Z-piece
 ];
 
+/**
+ * Main Tetris game class
+ * Handles game state, piece movement, collision detection, and rendering
+ */
 class Tetris {
     constructor() {
+        // Initialize game board as 2D array (20x10)
         this.board = Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(0));
+        
+        // Current piece state
         this.currentPiece = null;
-        this.currentX = 0;
-        this.currentY = 0;
-        this.currentColor = 0;
+        this.currentX = 0;      // Piece X position
+        this.currentY = 0;      // Piece Y position
+        this.currentColor = 0;  // Piece color index
+        
+        // Next piece preview
         this.nextPiece = null;
         this.nextColor = 0;
+        
+        // Game statistics
         this.score = 0;
         this.level = 1;
         this.lines = 0;
+        
+        // Game state flags
         this.gameOver = false;
         this.paused = false;
-        this.dropCounter = 0;
-        this.dropInterval = 1000;
-        this.lastTime = 0;
+        
+        // Drop timing
+        this.dropCounter = 0;      // Time accumulator
+        this.dropInterval = 1000;  // Drop speed in ms
+        this.lastTime = 0;         // Last frame timestamp
         
         this.init();
     }
